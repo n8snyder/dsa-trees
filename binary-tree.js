@@ -17,41 +17,45 @@ class BinaryTree {
    * the length of the shortest path from the root to a leaf. */
 
   minDepth(node = this.root) {
-    this.root.depth = 0;
-    const toVisitQueue = [this.root];
+    if (node === null) return 0;
 
-    while (toVisitQueue.length) {
-      let current = toVisitQueue.shift();
-      console.log("CURRENT: ", current)
+    const leftDepth = this.minDepth(node.left);
+    const rightDepth = this.minDepth(node.right);
 
-      if (current.left) {
-        current.left.depth = 1 + current.depth;
-        toVisitQueue.push(current.left)
-      } 
-
-      if (current.right) {
-        current.right.depth = 1 + current.depth;
-        toVisitQueue.push(current.right)
-      } 
-
-      if (current.left === null && current.right === null) {
-        return current.depth;
-      }
-    }
+    return rightDepth < leftDepth ? 1 + rightDepth : 1 + leftDepth;
   }
 
   /** maxDepth(): return the maximum depth of the tree -- that is,
    * the length of the longest path from the root to a leaf. */
 
   maxDepth(node = this.root) {
+    if (node === null) return 0;
 
+    const leftDepth = this.maxDepth(node.left);
+    const rightDepth = this.maxDepth(node.right);
+
+    return rightDepth > leftDepth ? 1 + rightDepth : 1 + leftDepth;
   }
 
   /** nextLarger(lowerBound): return the smallest value in the tree
    * which is larger than lowerBound. Return null if no such value exists. */
 
   nextLarger(lowerBound, node = this.root) {
+    if (node === null) return null;
 
+    const nodeLarger = node.val > lowerBound ? node.val : null;
+    const leftLarger = this.nextLarger(lowerBound, node.left);
+    const rightLarger = this.nextLarger(lowerBound, node.right);
+
+    let smallest = Infinity;
+    if (nodeLarger !== null && nodeLarger < smallest) smallest = nodeLarger;
+    if (leftLarger !== null && leftLarger < smallest) smallest = leftLarger;
+    if (rightLarger !== null && rightLarger < smallest) smallest = rightLarger;
+    if (nodeLarger === null && leftLarger === null && rightLarger === null) {
+      smallest = null;
+    }
+    
+    return smallest;
   }
 
   /** Further study!
