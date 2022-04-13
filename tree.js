@@ -34,14 +34,46 @@ class Tree {
   /** countEvens(): count all of the nodes in the tree with even values. */
 
   countEvens() {
+    if (this.root === null) return 0;
 
+    const unvisited = [this.root];
+    let total = 0;
+
+    while (unvisited.length !== 0) {
+      let node = unvisited.pop();
+      
+      if (node.val % 2 === 0) {
+        total++;
+      }
+
+      for (let child of node.children) {
+        unvisited.push(child);
+      }
+    }
+    return total;
   }
 
   /** numGreater(lowerBound): return a count of the number of nodes
    * whose value is greater than lowerBound. */
 
   numGreater(lowerBound) {
+    if (this.root === null) return 0;
 
+    const unvisited = [this.root];
+    let total = 0;
+
+    while (unvisited.length !== 0) {
+      let node = unvisited.pop();
+      
+      if (node.val > lowerBound) {
+        total++;
+      }
+
+      for (let child of node.children) {
+        unvisited.push(child);
+      }
+    }
+    return total;
   }
 }
 
